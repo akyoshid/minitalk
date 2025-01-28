@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_toupper.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akyoshid <akyoshid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 18:46:47 by akyoshid          #+#    #+#             */
-/*   Updated: 2025/01/28 19:30:49 by akyoshid         ###   ########.fr       */
+/*   Created: 2023/11/18 09:47:00 by akyoshid          #+#    #+#             */
+/*   Updated: 2024/11/19 18:00:42 by akyoshid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "../../inc/libft.h"
 
-# include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include "../libft/inc/libft.h"
-# include "../libft/inc/ft_printf.h"
-# include "../libft/inc/get_next_line_bonus.h"
+int	ft_toupper(int c)
+{
+	if (c >= 'a' && c <= 'z')
+		c -= 'a' - 'A';
+	return (c);
+}
 
-#endif
+// int	main(void)
+// {
+// 	char	c;
+
+// 	c = 'a';
+// 	printf("%c\n", ft_toupper(c));
+// 	printf("%c\n", toupper(c));
+// 	return (0);
+// }

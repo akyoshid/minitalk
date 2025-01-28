@@ -1,23 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_tolower.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akyoshid <akyoshid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 18:46:47 by akyoshid          #+#    #+#             */
-/*   Updated: 2025/01/28 19:30:49 by akyoshid         ###   ########.fr       */
+/*   Created: 2023/11/18 09:51:26 by akyoshid          #+#    #+#             */
+/*   Updated: 2024/11/19 18:00:38 by akyoshid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+#include "../../inc/libft.h"
 
-# include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include "../libft/inc/libft.h"
-# include "../libft/inc/ft_printf.h"
-# include "../libft/inc/get_next_line_bonus.h"
+int	ft_tolower(int c)
+{
+	if (c >= 'A' && c <= 'Z')
+		c += 'a' - 'A';
+	return (c);
+}
 
-#endif
+// int	main(void)
+// {
+// 	char	c;
+
+// 	c = 'A';
+// 	printf("%c\n", ft_tolower(c));
+// 	printf("%c\n", tolower(c));
+// 	return (0);
+// }

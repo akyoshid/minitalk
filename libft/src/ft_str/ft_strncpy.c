@@ -1,23 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minitalk.h                                         :+:      :+:    :+:   */
+/*   ft_strncpy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: akyoshid <akyoshid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/01/28 18:46:47 by akyoshid          #+#    #+#             */
-/*   Updated: 2025/01/28 19:30:49 by akyoshid         ###   ########.fr       */
+/*   Created: 2023/08/15 22:17:29 by akyoshid          #+#    #+#             */
+/*   Updated: 2025/01/13 12:32:02 by akyoshid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINITALK_H
-# define MINITALK_H
+char	*ft_strncpy(char *dest, char *src, unsigned int n)
+{
+	unsigned int	i;
 
-# include <unistd.h>
-# include <signal.h>
-# include <stdlib.h>
-# include "../libft/inc/libft.h"
-# include "../libft/inc/ft_printf.h"
-# include "../libft/inc/get_next_line_bonus.h"
-
-#endif
+	i = 0;
+	while ((i < n) && (src[i] != '\0'))
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	while (i < n)
+	{
+		dest[i] = '\0';
+		i++;
+	}
+	return (dest);
+}
