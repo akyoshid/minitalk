@@ -16,10 +16,14 @@ INC =			$(INC_DIR)minitalk.h
 # Source files
 CLIENT_SRC =	$(SRC_DIR)client.c
 SERVER_SRC =	$(SRC_DIR)server.c
+UTILS_SRC =		$(SRC_DIR)utils.c
 
 # Generate the list of object files in OBJ_DIR from source files in SRC_DIR
 CLIENT_OBJ =	$(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(CLIENT_SRC))
 SERVER_OBJ =	$(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(SERVER_SRC))
+UTILS_OBJ = 	$(patsubst $(SRC_DIR)%.c,$(OBJ_DIR)%.o,$(UTILS_SRC))
+CLIENT_OBJ +=	$(UTILS_OBJ)
+SERVER_OBJ +=	$(UTILS_OBJ)
 
 # Compile
 CC = cc
