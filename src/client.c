@@ -6,13 +6,13 @@
 /*   By: akyoshid <akyoshid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:47:05 by akyoshid          #+#    #+#             */
-/*   Updated: 2025/01/30 00:00:51 by akyoshid         ###   ########.fr       */
+/*   Updated: 2025/01/30 02:00:20 by akyoshid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minitalk.h"
 
-volatile sig_atomic_t	g_flag = 0;
+volatile sig_atomic_t	g_flag;
 
 void	handler(int signum)
 {
@@ -47,14 +47,14 @@ void	send_char(pid_t server_pid, char c)
 			if (usleep(100) == 0)
 			{
 				if (kill(server_pid, 0) == -1)
-					proc_err(ERR_SERVER_BECAME_UNAVAILABLE);
+					proc_err(ERR_SERVER_TERMINATED);
 				usleep_count++;
 				if (usleep_count >= 10000)
 					proc_err(ERR_SERVER_RESP_TIMEOUT);
 			}
 		}
 		if (g_flag == -1)
-			proc_err(ERR_SERVER_IS_UNAVAILABLE);
+			proc_err(ERR_MULT_CLIENTS);
 		i--;
 	}
 }
