@@ -6,7 +6,7 @@
 /*   By: akyoshid <akyoshid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:47:02 by akyoshid          #+#    #+#             */
-/*   Updated: 2025/01/30 02:10:33 by akyoshid         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:07:07 by akyoshid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,10 +85,10 @@ int	main(void)
 			proc_err(ERR_WRITE);
 		if (usleep(100) == 0)
 		{
-			usleep_count++;
-			if (usleep_count >= 300000)
+			if (++usleep_count >= 300000)
 				proc_err(ERR_CLIENT_RESP_TIMEOUT);
 		}
+		else
+			usleep_count = 0;
 	}
-	return (EXIT_SUCCESS);
 }

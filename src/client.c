@@ -6,7 +6,7 @@
 /*   By: akyoshid <akyoshid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:47:05 by akyoshid          #+#    #+#             */
-/*   Updated: 2025/01/30 02:00:20 by akyoshid         ###   ########.fr       */
+/*   Updated: 2025/01/30 12:08:45 by akyoshid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,41 +20,45 @@ void	handler(int signum)
 		g_flag = 1;
 	else if (signum == SIGUSR2)
 		g_flag = -1;
-	(void)signum;
+}
+
+void	send_bit(pid_t server_pid, int bit)
+{
+	int	sig;
+	int	usleep_count;
+
+	if (bit == 0)
+		sig = SIGUSR1;
+	else
+		sig = SIGUSR2;
+	g_flag = 0;
+	usleep_count = 0;
+	kill(server_pid, sig);
+	while (g_flag == 0)
+	{
+		if (usleep(100) == 0)
+		{
+			if (kill(server_pid, 0) == -1)
+				proc_err(ERR_SERVER_TERMINATED);
+			if (++usleep_count >= 10000)
+				proc_err(ERR_SERVER_RESP_TIMEOUT);
+		}
+	}
+	if (g_flag == -1)
+		proc_err(ERR_MULT_CLIENTS);
 }
 
 void	send_char(pid_t server_pid, char c)
 {
 	int	bit;
 	int	i;
-	int	sig;
-	int	usleep_count;
 
 	i = 7;
 	while (i >= 0)
 	{
-		g_flag = 0;
 		bit = c >> i;
 		bit = bit & 1;
-		if (bit == 0)
-			sig = SIGUSR1;
-		else
-			sig = SIGUSR2;
-		kill(server_pid, sig);
-		usleep_count = 0;
-		while (g_flag == 0)
-		{
-			if (usleep(100) == 0)
-			{
-				if (kill(server_pid, 0) == -1)
-					proc_err(ERR_SERVER_TERMINATED);
-				usleep_count++;
-				if (usleep_count >= 10000)
-					proc_err(ERR_SERVER_RESP_TIMEOUT);
-			}
-		}
-		if (g_flag == -1)
-			proc_err(ERR_MULT_CLIENTS);
+		send_bit(server_pid, bit);
 		i--;
 	}
 }
