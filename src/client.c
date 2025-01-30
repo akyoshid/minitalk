@@ -6,7 +6,7 @@
 /*   By: akyoshid <akyoshid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:47:05 by akyoshid          #+#    #+#             */
-/*   Updated: 2025/01/29 02:42:55 by akyoshid         ###   ########.fr       */
+/*   Updated: 2025/01/30 00:00:51 by akyoshid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ volatile sig_atomic_t	g_flag = 0;
 
 void	handler(int signum)
 {
-	g_flag = 1;
+	if (signum == SIGUSR1)
+		g_flag = 1;
+	else if (signum == SIGUSR2)
+		g_flag = -1;
 	(void)signum;
 }
 
@@ -25,6 +28,7 @@ void	send_char(pid_t server_pid, char c)
 	int	bit;
 	int	i;
 	int	sig;
+	int	usleep_count;
 
 	i = 7;
 	while (i >= 0)
@@ -37,12 +41,20 @@ void	send_char(pid_t server_pid, char c)
 		else
 			sig = SIGUSR2;
 		kill(server_pid, sig);
+		usleep_count = 0;
 		while (g_flag == 0)
 		{
-			if (kill(server_pid, 0) == -1)
-				proc_err(ERR_SERVER_UNAVAILABLE);
-			usleep(400);
+			if (usleep(100) == 0)
+			{
+				if (kill(server_pid, 0) == -1)
+					proc_err(ERR_SERVER_BECAME_UNAVAILABLE);
+				usleep_count++;
+				if (usleep_count >= 10000)
+					proc_err(ERR_SERVER_RESP_TIMEOUT);
+			}
 		}
+		if (g_flag == -1)
+			proc_err(ERR_SERVER_IS_UNAVAILABLE);
 		i--;
 	}
 }
@@ -73,7 +85,10 @@ int	main(int argc, char *argv[])
 	ft_memset(&sa, 0, sizeof(struct sigaction));
 	sa.sa_handler = handler;
 	sigemptyset(&sa.sa_mask);
+	sigaddset(&sa.sa_mask, SIGUSR1);
+	sigaddset(&sa.sa_mask, SIGUSR2);
 	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
 	send_string(server_pid, argv[2]);
 	return (EXIT_SUCCESS);
 }

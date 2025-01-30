@@ -6,7 +6,7 @@
 /*   By: akyoshid <akyoshid@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/01/28 18:46:47 by akyoshid          #+#    #+#             */
-/*   Updated: 2025/01/29 04:21:45 by akyoshid         ###   ########.fr       */
+/*   Updated: 2025/01/29 23:59:55 by akyoshid         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,10 @@ typedef enum e_err_code
 {
 	ERR_ARGC,
 	ERR_SERVER_PID,
-	ERR_SERVER_UNAVAILABLE,
+	ERR_SERVER_IS_UNAVAILABLE,
+	ERR_SERVER_BECAME_UNAVAILABLE,
+	ERR_SERVER_RESP_TIMEOUT,
+	ERR_CLIENT_RESP_TIMEOUT,
 	ERR_WRITE,
 }	t_err_code;
 
